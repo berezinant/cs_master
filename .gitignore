@@ -1,0 +1,8 @@
+# Package Files #
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex
+*.bak
+*.toc
