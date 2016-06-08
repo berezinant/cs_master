@@ -9,6 +9,30 @@
 \usepackage{euscript}
 \usepackage{mathrsfs}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
 \usepackage{geometry}
 \geometry{left=3cm}
 \geometry{right=2cm}
@@ -33,7 +57,7 @@
 
 Березин А.А. ЗАДАЧА ПОСТРОЕНИЯ ГРАФИКА ГОРЯЧЕЙ ПРОКАТКИ, СБАЛАНСИРОВАННОГО ПО ВИДАМ ПРОДУКЦИИ. АЛГОРИТМЫ ПОСТРОЕНИЯ ГРАФИКА,
 
-выпускная квалификационная работа на степень магистра наук: стр. 28, рис. 5, форм. 16, библ. 9 назв.
+выпускная квалификационная работа на степень магистра наук: стр. 41, рис. 5, форм. 22, библ. 11 назв., табл. 1.
 
 \medskip
 
@@ -79,8 +103,6 @@
 Первое ограничение состоит в том, что требуется формировать только такие графики прокатки, в которых ширина каждой следующей партии не возрастает. Оно обусловлено тем, что во время прокатки рабочие валки стана сильно изнашиваются, и на их поверхности появляется углубление по ширине прокатываемых заготовок. Поэтому если после заготовки с меньшей шириной пропустить через стан заготовку с большей шириной, то на поверхности последней могут появиться дефекты.
 Также к первому ограничению относится требование, чтобы ширина каждой следующей партии в графике прокатки не уменьшалась больше, чем на заданную величину.
 Второе ограничение на порядок следования партий друг за другом в графике прокатки заключается в том, что толщина каждой следующей партии не должна слишком сильно отличаться от толщины предыдущей. Это ограничение обусловлено тем, что во время прокатки необходимо подстраивать расстояние между верхними и нижними валками стана в соответствии с толщиной прокатываемой заготовки, при этом хочется минимизировать эти перестроения валков.
-
-Кроме того в данной работе рассматривается еще один класс ограничений связанных со временем готовности партий к прокатке.
 
 Поскольку обычно производственный цикл металлургического предприятия является непрерывным, то при формировании каждого следующего графика прокатки помимо текущего множества готовых к прокатке партий, также известно, какие еще партии будут произведены и станут готовы  к прокате в ближайшем будущем. Эти еще не произведенные партии участвуют в формировании графиков прокатки наравне с уже готовыми партиями. Рассматривается ситуация, когда для каждой партии известен момент времени, начиная с которого партия готова к прокатке, а также известно какой промежуток времени требуется на прокатку данной партии. Эта информация позволяет формировать графики, в которых некоторые партии еще не готовы к прокатке на момент начала прокатки графика. При этом накладывается требование, чтобы к моменту, когда очередь дойдет до каждой следующей партии, она была готова к прокатке.
 
@@ -179,8 +201,6 @@ $0 \le w_p - w_q \le \delta$.
 
 Далее будем отождествлять партии прокатки и вершины графа предшествования партий.
 
-$$ s_i \;\;\;\;\ e_i  $$
-
 
 \section{Задача существования сбалансированной простой цепи}
 
@@ -188,7 +208,9 @@ $$ s_i \;\;\;\;\ e_i  $$
 
 Для простой цепи $H \in \mathbb{B}(G)$ через $l(H)$ обозначим её вес.
 
-$$l(H) \triangleq \displaystyle\sum_{p \in P(H)} l(p)$$
+\begin{equation}
+l(H) \triangleq \displaystyle\sum_{p \in P(H)} l(p)
+\end{equation}
 
 Пронумеруем виды продукции, пусть $F = \{f_1, f_2, \ldots, f_s\}$.
 
@@ -208,8 +230,8 @@ $$l(H) \triangleq \displaystyle\sum_{p \in P(H)} l(p)$$
 
 Можно поставить, например, такую задачу с одним критерием оптимизации: найти в $\mathbb{B}(G)$ простую цепь $H$, где
 
-\begin{equation*} \displaystyle\sum_{k = 1}^s\bigg{|}\mu(f_k) - \frac{\displaystyle\sum_{f(p_i) = f_k, p_i \in P(H)}l(p_i)}{ \displaystyle\sum_{p_i \in P(H)}l(p_i)}\bigg{|}
-\rightarrow \min, p_i \in P(H) \end{equation*}
+\begin{equation} \displaystyle\sum_{k = 1}^s\bigg{|}\mu(f_k) - \frac{\displaystyle\sum_{f(p_i) = f_k, p_i \in P(H)}l(p_i)}{ \displaystyle\sum_{p_i \in P(H)}l(p_i)}\bigg{|}
+\rightarrow \min, p_i \in P(H) \end{equation}
 
 Такая задача имеет недостатком то, что в ней учитывается только <<общая>> сбалансированность решения. При этом нет гарантии, что в решении не будет <<перекосов>> и сильных отклонений по отдельным видам продукции, что является нежелательным с практической точки зрения.
 Можно рассматривать многокритериальную постановку оптимизационной задачи, однако такая постановка существенно сложнее в том числе и с вычислительной точки зрения. В данной работе выбрана именно задача существования сбалансированной простой цепи, поскольку она является хорошим инструментом для решения практической задачи, при этом постановка является достаточно простой, что позволяет решать ее за приемлемое с практической точки зрения время.
@@ -799,7 +821,7 @@ $$J_i(x) = \{ j \; | \; p_{kj} \in P_i(t_x)\}$$
 
 В таблице \ref{results} представлено сравнение производительности алгоритма решения задачи построения сбалансированного графика прокатки для различных способов формализации задачи.
 
-\begin{table}[H]
+\begin{table}[H!]
 \caption{Результаты расчетов}
 \label{results}
 \begin{tabular}{|c|c|}
@@ -836,6 +858,10 @@ $$J_i(x) = \{ j \; | \; p_{kj} \in P_i(t_x)\}$$
 \bibitem{svLeon_2016} {\it Леонова С.И.} {\rm Задача построения графика горячей прокатки, сбалансированного по видам продукции. Исследование свойств графика.//Магистерская диссертация, ИМКН УрФУ, Екатеринбург, 2016}
 \bibitem{svLeon_2014} {\it Леонова С.И.} {\rm Разработка и исследование алгоритмов построениея экстремальных цепей в вершинно-взвешенных ориентированных графах. Частный алгоритм.//Бакалаврская диссертация, ИМКН УрФУ, Екатеринбург, 2014}
 \bibitem{berezinant} {\it Березин А.А.} {\rm Разработка и исследование алгоритмов построениея экстремальных цепей в вершинно-взвешенных ориентированных графах. Общий алгоритм.//Бакалаврская диссертация, ИМКН УрФУ, Екатеринбург, 2014}
+\bibitem{conf_2015} { Березин А.А., Вакула И.А., Леонова С.И.} {\rm Задача планирования горячей прокатки // Труды 46-й Международной
+молодежной школы-конференции, ИММ УрО РАН, Екатеринбург, 2015}
+\bibitem{conf_2016} { Березин А.А., Вакула И.А.} {\rm Задача построения сбалансированного графика прокатки // Труды 47-й Международной
+молодежной школы-конференции, ИММ УрО РАН, Екатеринбург, 2016}
 \bibitem{Dantzig} {\it Dantzig G.B., Fulkerson D.R., Johnson S.} {\rm On a linear programming combinatorial approach to the traveling salesman problem, Operations Research, 7 (1959), pp. 58–66}%
 \bibitem{BeVaLe_PCTSP_Balas} {\it Balas\,E.} {\rm  The prize collecting travelling salesman problem // Networks, October 1989. --- Vol. 19. --- P. 621--636.}%
 \bibitem{BeVaLe_Bals} {\it Balas E., Clarence H.M.} {\rm  Combinatorial optimization in steel rolling. Workshop on Combinatorial Optimization in Science and Technology, April, 1991.}%
@@ -851,5 +877,515 @@ $$J_i(x) = \{ j \; | \; p_{kj} \in P_i(t_x)\}$$
 \chapter*{Приложение}
 \addcontentsline{toc}{chapter}{Приложение}
 \label{app}
+Получение данных для расчета
+\begin{lstlisting}
+public class RollingSchedulingTask {
+
+	public ArrayList<Vertex> vertex;
+	public double totalLength;
+	public ArrayList<Flow> flows;
+	public ArrayList<Double> flowsTotalLength;
+	public ArrayList<Block> levels;
+	public int levelAmount;
+	public double Lmin;
+	public double Lmax;
+	public int optFlow =- 1;
+	public String name;
+	public int calcID;
+	public long startTime;
+	
+	public RollingSchedulingTask() {}
+		
+	/** Загружает задание, используя переданный connection */
+	public RollingSchedulingTask(int calcID, double lmin, double lmax, Connection cn) {
+		this.vertex = RollingSchedulingLoader.loadVertexes(calcID, cn);
+		this.flows = RollingSchedulingLoader.loadFlows(calcID, cn);
+		this.startTime = RollingSchedulingLoader.loadStartTime(calcID, cn);
+		prepareTask(calcID, lmin, lmax);
+	}
+
+	private void printTimeStat() {
+		ArrayList<Vertex> sortedByReadyTime = new ArrayList<Vertex>();
+		sortedByReadyTime.addAll(vertex);
+		Collections.sort(sortedByReadyTime, new SortByReadyTime());
+		Map<Integer, Double> hoursStat = new HashMap<Integer, Double>();
+		ArrayList<Integer> hoursAfterStartTime = new ArrayList<Integer>();
+		double acc = 0;
+		for (Vertex v : sortedByReadyTime) {
+			int h = (int) (v.readyTime - this.startTime) / 3600;
+			if (!hoursAfterStartTime.contains(h)) {
+				hoursAfterStartTime.add(h);
+				System.out.println(h);
+			}
+			acc += v.measure;
+			hoursStat.put(h, acc);
+		}
+		DecimalFormat formatter = new DecimalFormat("#.#", new DecimalFormatSymbols(Locale.GERMAN));
+		for (int i : hoursAfterStartTime) {
+		    System.out.println(formatter.format(hoursStat.get(i)));
+		}
+	}
+
+	private void prepareTask(int calcID, double lmin, double lmax) {
+		this.Lmin = lmin;
+		this.Lmax = lmax;
+		this.calcID = calcID;
+		
+		//выставляем свободные границы для потоков, для которых нет ограничений
+		for (Vertex v : this.vertex) {
+			if (!Flow.contains(this.flows, v.flowType)) {
+				this.flows.add(new Flow(v.flowType, 0, Lmax));
+			}
+		}
+
+		this.flowsTotalLength = new ArrayList<Double>();
+		for (int i = 0; i < this.flows.size(); i++) {
+			this.flowsTotalLength.add(0.0);
+		}
+
+		for (Vertex v : this.vertex) {
+			for (int i = 0; i < this.flows.size(); i++) {
+				if (v.flowType.equals(this.flows.get(i).name)) {
+					this.flowsTotalLength.set(i, this.flowsTotalLength.get(i) + v.measure);
+					this.totalLength += v.measure;
+					break;
+				}
+			}
+		}
+		
+		this.organizeLimits();
+		
+		this.levels = BlockStructure.getLevels(this.vertex);
+		this.levelAmount = this.levels.size();
+	}
+	
+	private void organizeLimits() {
+		//выставляем реальные границы для потоков, для которых имеется меньше, чем минимальный объем
+		int i = 0;
+		for (Flow f : flows) {
+			if (f.min > flowsTotalLength.get(i)) {
+				f.min = 0.99 * flowsTotalLength.get(i);
+			}
+			i++;
+		}
+	}
+	
+	/** Загружает задание, используя переданный connection, и генерирует последовательность уровней */
+	public RollingSchedulingTask(int calcID, Crit crit, double lmin, double lmax, Connection cn) {
+		this(calcID, lmin, lmax, cn);
+		
+		
+		for (Block b : this.levels) {
+			b.isUsed = true;
+		}
+	}
+	
+	public void setLmin(double Lmin) {
+		this.Lmin = Lmin;
+	}
+	
+	public void setLmax(double Lmax) {
+		this.Lmax = Lmax;
+	}
+	
+	public void refineFlowTask() {
+		int i = 0;
+		for (Flow f : flows) {
+			if (f.min > flowsTotalLength.get(i)) {
+				f.min = 0.1 * flowsTotalLength.get(i);
+			}
+			if(f.max < 0.10 * Lmax) {
+				f.max = 0.10 * Lmax;
+			}
+		}
+	}
+
+	public String showFlowTaskStat() {
+		String s="";
+		s += "/-----------------------------------/\n";
+		s += "Целевое распределение\n";
+		s += "Min: " + Lmin + "; Max: " + Lmax + "\n";
+		for (Flow f : flows) {
+			s += f.name + ": min " + f.min + "; max " + f.max + "\n";
+		}
+		s += "/-----------------------------------/" + "\n";
+		s += "Фактическое распределение в задании" + "\n";
+		s += "Exists: " + totalLength  + "\n";
+		for (int i = 0; i < flows.size(); i++) {
+			s += flows.get(i).name + ": " + flowsTotalLength.get(i) + "\n";
+		}
+		return s;
+	}
+	
+	public void printFlowTaskStat() {
+		System.out.println(showFlowTaskStat());
+	}
+
+	public void setLowLimsTo(double v) {
+		for (int i = 0; i < flows.size(); i++) {
+			flows.get(i).min=v;
+		}
+	}
+
+	public void setUpperLimsTo(double v) {
+		for (int i = 0; i < flows.size(); i++) {
+			flows.get(i).max=v;
+		}
+	}
+	
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+}
+\end{lstlisting}
+
+
+Перевод задания для построения графика в задачу математического программирования
+
+\begin{lstlisting}
+public class RollingSchedulingProblem {
+
+	public static Problem createProblem(RollingSchedulingTask t, RollingMathModel model, Crit crit, RollingMathOptFunc func) {
+		Problem p = new Problem("HotRolling");
+		if (model != RollingMathModel.NO_LEVELS_STRUCTURE) {
+			for (int i = 1; i <= t.levelAmount; i++) {
+				int size = t.levels.get(i-1).size;
+				VarArray B = new VarArray(String.format("B[%d]", i), 1, new int[] {size}, VarType.BV, BoundType.DB, 0, 1);
+				p.addVars(B);
+			}
+			if (model == RollingMathModel.FREE_ENTERS_EXITS || model == RollingMathModel.FREE_LEVELS_SEQUENCE) {
+				for (int i = 1; i <= t.levelAmount; i++) {
+					int size = t.levels.get(i-1).size;
+					VarArray S = new VarArray(String.format("S[%d]", i), 1, new int[] {size}, VarType.BV, BoundType.DB, 0, 1);
+					p.addVars(S);
+				}
+				for (int i = 1; i <= t.levelAmount; i++) {
+					int size = t.levels.get(i-1).size;
+					VarArray E = new VarArray(String.format("E[%d]", i), 1, new int[] {size}, VarType.BV, BoundType.DB, 0, 1);
+					p.addVars(E);
+				}
+			}
+			if (model == RollingMathModel.FREE_LEVELS_SEQUENCE) {
+				int size = t.levelAmount;
+				VarArray Q = new VarArray("Q", 1, new int[] {size}, VarType.BV, BoundType.DB, 0, 1);
+				p.addVars(Q);
+			}
+			Constraint c = new Constraint("weightConstr");
+			// Ограничение на вес
+			for (int i = 1; i <= t.levelAmount; i++) {
+				for (int j = 1; j <= t.levels.get(i-1).size; j++) {
+					double lij = t.levels.get(i-1).get(j-1).measure;
+					c.addVarEntry(String.format("B[%d]", i), new int[] {j}, lij);
+				}
+			}
+			c.setLowBound(t.Lmin);
+			c.setUpBound(t.Lmax);
+			c.setType(BoundType.DB);
+			p.addConstraint(c);
+			
+			// Ограничение на виды продукции
+			for (int k = 1; k <= t.flows.size(); k++) {
+				c = new Constraint(String.format("prodFlowConstr[%d]", k));
+				for (int i = 1; i <= t.levelAmount; i++) {
+					for (int j = 1; j <= t.levels.get(i-1).size; j++) {
+						if (t.levels.get(i-1).get(j-1).flowType.equals(t.flows.get(k-1).name)) {
+							double lij = t.levels.get(i-1).get(j-1).measure;
+							c.addVarEntry(String.format("B[%d]", i), new int[] {j}, lij);
+						}
+					}
+				}
+				c.setLowBound(t.flows.get(k-1).min);
+				c.setUpBound(t.flows.get(k-1).max);
+				c.setType(BoundType.DB);
+				p.addConstraint(c);
+			}
+			
+			if (model == RollingMathModel.FIXED_ENTERS_EXITS) {
+				addPrecConstraintsWithFixedLevelsSequenceAndFixedEntersAndExits(p, t, crit);
+			} else if (model == RollingMathModel.FREE_ENTERS_EXITS) {
+				addPrecConstraintsWithFixedLevelsSequenceAndFreeEntersAndExits(p, t, crit);
+			} else if (model == RollingMathModel.FREE_LEVELS_SEQUENCE) {
+				addPrecConstraintsWithFreeLevelsSequence(p, t, crit);
+				addReadyTimeConstraints(p, t);
+			}
+		
+			ObjectiveFunction f = new ObjectiveFunction("Objective");
+			if (func == RollingMathOptFunc.TOTAL_VALUE_MAX || func == RollingMathOptFunc.TOTAL_VALUE_MIN) {
+				for (int i = 1; i <= t.levelAmount; i++) {
+					for (int j = 1; j <= t.levels.get(i-1).size; j++) {
+						double lij = t.levels.get(i-1).get(j-1).measure;
+						f.addVarEntry(String.format("B[%d]", i), new int[] {j}, lij);
+					}
+				}
+			} else if (func == RollingMathOptFunc.FLOW_LOWER_AMOUNT || func == RollingMathOptFunc.FLOW_UPPER_AMOUNT) {
+				if (t.optFlow >= 0) {
+					String sopt = t.flows.get(t.optFlow).name;
+					for (int i = 1; i <= t.levelAmount; i++) {
+						for (int j = 1; j <= t.levels.get(i-1).size; j++) {
+							double lij = t.levels.get(i-1).get(j-1).measure;
+							String s = t.levels.get(i-1).get(j-1).flowType;
+							if(s.equals(sopt))
+								f.addVarEntry(String.format("B[%d]", i), new int[] {j}, lij);
+						}
+					}
+				}
+			}
+			
+			if (func == RollingMathOptFunc.TOTAL_VALUE_MAX || func == RollingMathOptFunc.FLOW_LOWER_AMOUNT) {
+				f.setType(ObjectiveType.MAX);
+			} else if (func == RollingMathOptFunc.TOTAL_VALUE_MIN || func == RollingMathOptFunc.FLOW_UPPER_AMOUNT) {
+				f.setType(ObjectiveType.MIN);
+			}
+			p.setObjectiveFunction(f);
+		}
+		if (model == RollingMathModel.NO_LEVELS_STRUCTURE) {
+			int vSize = t.vertex.size();
+			for (int i = 1; i <= vSize; i++) {
+				VarArray P = new VarArray(String.format("P[%d]", i), 1, new int[] {vSize}, VarType.BV, BoundType.DB, 0, 1);
+				p.addVars(P);
+			}
+			Constraint c = null;
+			Constraint c1 = null;
+			Constraint c2 = null;
+			for (int i = 1; i <= vSize; i++) {
+				c1 = new Constraint(String.format("OneVertexToOnePositionConstr[%d]", i));
+				c2 = new Constraint(String.format("EachVertexUsedOnlyOnceConstr[%d]", i));
+				for (int j = 1; j <= vSize; j++) {
+					c1.addVarEntry(String.format("P[%d]", i), new int[] {j}, 1.0);
+					c2.addVarEntry(String.format("P[%d]", j), new int[] {i}, 1.0);
+				}
+				c1.setLowBound(1.0);
+				c1.setUpBound(1.0);
+				c1.setType(BoundType.UP);
+				p.addConstraint(c1);
+				c2.setLowBound(1.0);
+				c2.setUpBound(1.0);
+				c2.setType(BoundType.UP);
+				p.addConstraint(c2);
+			}
+			
+			for (int i = 1; i < vSize; i++) {
+				c = new Constraint(String.format("PositionOrderConstr[%d]", i));
+				for (int j = 1; j <= vSize; j++) {
+					c.addVarEntry(String.format("P[%d]", i), new int[] {j}, -1.0);
+					c.addVarEntry(String.format("P[%d]", i+1), new int[] {j}, 1.0);
+				}
+				c.setLowBound(0.0);
+				c.setUpBound(0.0);
+				c.setType(BoundType.UP);
+				p.addConstraint(c);
+			}
+			
+			long start = System.currentTimeMillis();
+			Graph g = new Graph(t.vertex, crit);
+			for (int i = 2; i <= vSize; i++) {
+				for (int j = 1; j <= vSize; j++) {
+					c = new Constraint(String.format("ConnectivityConstr[%d,%d]", i, j));
+					c.addVarEntry(String.format("P[%d]", i), new int[] {j}, 1.0);
+					Vertex v_j = t.vertex.get(j-1);
+					ArrayList<Integer> In = getInIndexes(g, v_j, crit);
+					for (int k : In) {
+						c.addVarEntry(String.format("P[%d]", i-1), new int[] {k}, -1.0);
+					}
+					c.setLowBound(0.0);
+					c.setUpBound(0.0);
+					c.setType(BoundType.UP);
+					p.addConstraint(c);
+				}
+			}
+			long finish = System.currentTimeMillis();
+			System.out.println(String.format("Connectivity constraint time: %d", finish - start));
+			c = new Constraint("WeightConstr");
+			// Ограничение на вес
+			for (int i = 1; i <= vSize; i++) {
+				for (int j = 1; j <= vSize; j++) {
+					double lj = t.vertex.get(j-1).measure;
+					c.addVarEntry(String.format("P[%d]", i), new int[] {j}, lj);
+				}
+			}
+			c.setLowBound(t.Lmin);
+			c.setUpBound(t.Lmax);
+			c.setType(BoundType.DB);
+			p.addConstraint(c);
+			/**/
+			// Ограничение на виды продукции
+			for (int k = 1; k <= t.flows.size(); k++) {
+				c = new Constraint(String.format("FlowConstr[%d]", k));
+				for (int i = 1; i <= vSize; i++) {
+					for (int j = 1; j <= vSize; j++) {
+						if (t.vertex.get(j-1).flowType.equals(t.flows.get(k-1).name)) {
+							double lj = t.vertex.get(j-1).measure;
+							c.addVarEntry(String.format("P[%d]", i), new int[] {j}, lj);
+						}
+					}
+				}
+				c.setLowBound(t.flows.get(k-1).min);
+				c.setUpBound(t.flows.get(k-1).max);
+				c.setType(BoundType.DB);
+				p.addConstraint(c);
+			}
+			/**/
+			ObjectiveFunction f = new ObjectiveFunction("Objective");
+			if (func == RollingMathOptFunc.TOTAL_VALUE_MAX || func == RollingMathOptFunc.TOTAL_VALUE_MIN) {
+				for (int i = 1; i <= vSize; i++) {
+					for (int j = 1; j <= vSize; j++) {
+						double lj = t.vertex.get(j-1).measure;
+						f.addVarEntry(String.format("P[%d]", i), new int[] {j}, lj);
+					}
+				}
+			} else if (func == RollingMathOptFunc.FLOW_LOWER_AMOUNT || func == RollingMathOptFunc.FLOW_UPPER_AMOUNT) {
+				if (t.optFlow >= 0) {
+					String sopt = t.flows.get(t.optFlow).name;
+					for (int i = 1; i <= vSize; i++) {
+						for (int j = 1; j <= vSize; j++) {
+							double lj = t.vertex.get(j-1).measure;
+							String s = t.vertex.get(j-1).flowType;
+							if (s.equals(sopt)) {
+								f.addVarEntry(String.format("P[%d]", i), new int[] {j}, lj);
+							}
+						}
+					}
+				}
+			}
+			
+			if (func == RollingMathOptFunc.TOTAL_VALUE_MAX || func == RollingMathOptFunc.FLOW_LOWER_AMOUNT) {
+				f.setType(ObjectiveType.MAX);
+			} else if (func == RollingMathOptFunc.TOTAL_VALUE_MIN || func == RollingMathOptFunc.FLOW_UPPER_AMOUNT) {
+				f.setType(ObjectiveType.MIN);
+			}
+			p.setObjectiveFunction(f);
+			
+		}
+		return p;
+	}
+\end{lstlisting}
+
+
+Взаимодействие с системой IBM ILOG CPLEX
+\begin{lstlisting}
+public class Translator {
+	
+	public static IloCplex toCPLEXProblem(IloCplex cplex, Problem p, IntegerCounter c2, boolean printSolverLog) throws IloException {
+		cplex.clearModel();
+		IloNumVar[] allVars = null;
+		String[] names = new String[p.getVarAmount()];
+		double[] lb = new double[p.getVarAmount()];
+		double[] ub = new double[p.getVarAmount()];
+		IloNumVarType[] types = new IloNumVarType[p.getVarAmount()];
+		Map<String,Integer> varOffsets = new HashMap<String, Integer>();
+		int i = 0;
+		for (VarArray v : p.getVarArrays()) {
+			ArrayList<String> vNames = new ArrayList<String>();
+			int dims = v.getDim();
+			int[] dimSize = v.getDimSize();
+			int[] c = new int[v.getDimSize().length];
+			String varName = v.name;
+			cplexNameLoops(vNames, varName, dims, dimSize, 0, c);
+			varOffsets.put(v.name, i);
+			for (int j = i; j < i + v.size; j++) {
+				names[j] = vNames.get(j-i);
+				lb[j] = v.lowBound;
+				ub[j] = v.upBound;
+				types[j] = cplexType(v.varType);
+			}
+			i += v.size;
+		}
+		allVars = cplex.numVarArray(p.getVarAmount(), lb, ub, types, names);
+		
+		for (Constraint c : p.getConstraints()) {
+			IloLinearNumExpr expr = cplex.linearNumExpr();
+			for (VarEntry v : c.getVarEntries()) {
+				expr.addTerm(v.coef, allVars[getColsIndex(p, v, varOffsets)-1]);
+			}
+			switch (c.type) {
+				case UP : cplex.addLe(expr, c.upBound, c.name); break;
+				case LO : cplex.addGe(expr, c.lowBound, c.name); break;
+				case FX : cplex.addEq(expr, c.lowBound, c.name); break;
+				case DB : cplex.addGe(expr, c.lowBound, c.name); cplex.addLe(expr, c.upBound, c.name); break;
+			default:
+				break;
+			}
+		}
+		
+		ObjectiveFunction f = p.getObjectiveFunction();
+		if (f.getType() != ObjectiveType.NO) {
+			IloLinearNumExpr objExpr = cplex.linearNumExpr();
+			for (VarEntry v : f.getVarEntries()) {
+				objExpr.addTerm(v.coef, allVars[getColsIndex(p, v, varOffsets) - 1]);
+			}
+
+			if (f.getType().equals(ObjectiveType.MAX)) {
+				cplex.addMaximize(objExpr);
+			} else {
+				cplex.addMinimize(objExpr);
+			}
+		}
+		if(!printSolverLog)
+			cplex.setOut(null);
+		if (cplex.solve()) {
+			c2.set(1);
+			if(printSolverLog) {
+		        cplex.output().println("Solution status = " + cplex.getStatus());
+		        cplex.output().println("Solution value  = " + cplex.getObjValue());
+			}
+
+	        double[] val = cplex.getValues(allVars);
+	
+	        int ncols = cplex.getNcols();
+	        int varArrayCounter = 0;
+	        int localArrayCounter = 0;
+	        VarArray v = p.getVarArrays().get(varArrayCounter);
+	        for (int j = 0; j < ncols;) {
+//	        	cplex.output().println(names[j] + " = " + val[j]);
+	        	if (localArrayCounter < v.size) {
+	        		v.getVars().add(val[j]);
+	        		localArrayCounter++;
+	        		j++;
+	        	} else {
+	        		varArrayCounter++;
+	        		v = p.getVarArrays().get(varArrayCounter);
+	        		localArrayCounter = 0;
+	        	}
+	        }
+	    }
+		return cplex;
+	}
+	
+	private static IloNumVarType cplexType(VarType varType) {
+		switch (varType) {
+			case IV : return IloNumVarType.Int;
+			case BV : return IloNumVarType.Bool;
+			default : return IloNumVarType.Float;
+		}
+	}
+
+	
+	private static int getColsIndex(Problem p, VarEntry varEntry, Map<String, Integer> varOffsets) {
+		// смещение до нужного блока с переменными + индекс внутри этого блока
+		return varOffsets.get(varEntry.varArrayName) + p.get(varEntry.varArrayName).lineIndex(varEntry.index);
+	}
+	
+	
+	public static String indexString(int[] a) {
+		String s = "[";
+		for (int i : a) {
+			s += i + ",";
+		}
+		return s.substring(0, s.length()-1) + "]";
+	}
+	
+	public static void cplexNameLoops(ArrayList<String> names, String varName, int dims, int[] dimSize, int n, int[] c) {	
+	    if (n == dims) {
+	    	names.add(varName + indexString(c));
+	    	return;
+	    }
+	    c[n] = 0;
+	    for (int i = 1; i <= dimSize[n]; i++) {
+	    	c[n]++;
+	        cplexNameLoops(names, varName, dims, dimSize, n+1, c);
+	    }
+	}
+}
+\end{lstlisting}
 
 \end{document} 
